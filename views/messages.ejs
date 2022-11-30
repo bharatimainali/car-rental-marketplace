@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="nb">
+<%- include('partials/head'); %>
+
+<body id="messagePage">
+    <div id="grid-container">
+        <%- include('partials/navbar'); %>
+
+        <aside>
+            <% conversations.forEach((conversation) => { %>
+            <div class="message-item-wrapper">
+                <a href="/messages/<%= conversation.id %>" class="message-item-link">
+                    <article class="message-list-item">
+                        <h3><%= conversation.with %></h3>
+                        <% if(conversation.messages[conversation.messages.length-1].content.length > 30) { %>
+                        <p>
+                            <%= conversation.messages[conversation.messages.length-1].content.substring(0, 30) %>...
+                        </p>
+                        <% } else { %>
+                        <p>
+                            <%= conversation.messages[conversation.messages.length-1].content %>
+                        </p>
+                        <% } %>
+                    </article>
+                </a>
+            </div>
+            <% }) %>
+        </aside>
+
+        <main>
+            <% if (typeof activeConversationId !== "undefined" && activeConversationId) {%>
+            <h1>
+                <i class="fa-solid fa-messages"></i> <%= convoWithUser.firstName %> <%= convoWithUser.lastName %>
+            </h1>
+            <% } else { %>
+            <h1>
+                <i class="fa-solid fa-messages"></i> <%= routeConfig.pageConfig.pageName %>
+            </h1>
+
+            <% }%>
+            <% if (typeof activeConversationId !== "undefined" && activeConversationId && conversations.length > 0) { %>
+            <% let conversation = conversations.find(x => x.id == activeConversationId) %>
+
+            <% if(typeof conversation !== "undefined") { %>
+
+            <% conversation.messages.forEach((message) => { %>
+            <% if (message.fromUser.uuid === user.uuid) { %>
+            <div class="message-item message-sent">
+                <% } else { %>
+                <div class="message-item message-received">
+                    <% } %>
+
+                    <p><%= message.content %></p>
+                    <small><%= message.sentTimestamp.toLocaleString() %></small>
+                </div>
+                <% }) %>
+                <% } %>
+
+                <form action="/messages/send" method="post">
+                    <input type="text" id="fromUserUuid" name="fromUserUuid" class="hidden-form-element" value="<%= user.uuid %>">
+                    <input type="text" id="toUserUuid" name="toUserUuid" class="hidden-form-element" value="<%= activeConversationId %>">
+                    <textarea name="content" id="content" cols="30" rows="2" placeholder="Skriv en melding..."></textarea>
+                    <button type="submit"><b>Send melding</b> <i class="fa-solid fa-arrow-right"></i></button>
+                </form>
+
+                <% } else if(typeof convoWithUser !== "undefined") { %>
+                <form action="/messages/send" method="post">
+                    <input type="text" id="fromUserUuid" name="fromUserUuid" class="hidden-form-element" value="<%= user.uuid %>">
+                    <input type="text" id="toUserUuid" name="toUserUuid" class="hidden-form-element" value="<%= activeConversationId %>">
+                    <textarea name="content" id="content" cols="30" rows="2" placeholder="Skriv en melding..."></textarea>
+                    <button type="submit"><b>Send melding</b> <i class="fa-solid fa-arrow-right"></i></button>
+                </form>
+                <% } else { %>
+                <p>
+                    Velg en samtale fra listen for å se meldinger.
+                </p>
+                <% } %>
+        </main>
+
+        <%- include('partials/footer'); %>
+    </div>
+</body>
+
+</html>

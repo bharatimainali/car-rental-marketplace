@@ -1,0 +1,110 @@
+#navbar-mobile,
+#navbar-desktop {
+    grid-area: nav;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        'left'
+        'right';
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background-color: $primary-dark;
+    padding: 1rem;
+    z-index: 999;
+
+    i {
+        color: $white;
+    }
+
+    ul {
+        display: flex;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    a {
+        color: $white;
+        text-decoration: none;
+        font-weight: 700;
+
+        &:hover {
+            filter: brightness(80%);
+            transition: 0.15s;
+        }
+    }
+}
+
+#navbar-mobile {
+
+    #navbar-centered {
+        ul {
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+}
+
+#navbar-desktop {
+    display: none;
+}
+
+@media only screen and (min-width: 575px) {
+    #navbar-mobile {
+        display: none;
+    }
+
+    #navbar-desktop {
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-template-areas:
+            'left right';
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    #navbar-left {
+        width: 100%;
+        grid-area: left;
+        display: flex;
+        padding-right: 2rem;
+        ul {
+            gap: 1rem;
+        }
+    }
+
+    #navbar-right {
+        width: 100%;
+        grid-area: right;
+        display: flex;
+
+        ul {
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    #navbar-desktop {
+        grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr;
+        grid-template-areas:
+            '. left left right right .';
+
+        #navbar-left {
+            padding-left: 1rem;
+        }
+
+        #navbar-right {
+            padding-right: 1rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 2000px) {
+    #navbar-desktop {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1.5fr;
+    }
+}

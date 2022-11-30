@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="nb">
+<%- include('partials/head'); %>
+
+<body id="newAdvertPage">
+    <div id="grid-container">
+        <%- include('partials/navbar'); %>
+
+        <main>
+            <h1>
+                <i class="fa-solid fa-car"></i> <%= routeConfig.pageConfig.pageName %>
+            </h1>
+
+            <form action="/adverts/new" method="post" enctype="multipart/form-data" class="vehicle-registration-form">
+                <fieldset>
+                    <legend>
+                        <h3>Nødvendig informasjon</h3>
+                    </legend>
+
+                    <label for="registrationNumber"><i class="fa-solid fa-hashtag"></i>
+                        Registreringsnummer
+                        <span class="required-mark">*</span></label>
+                    <div>
+                        <input type="text" name="registrationNumber" id="registrationNumber" placeholder="AB 12345" required />
+                        <button type="button" disabled>
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </button>
+                    </div>
+                    <p>
+                        <i>(Knappen vil hente info fra reg. nr. via Statens Vegvesen
+                            API, ikke implementert...)</i>
+                    </p>
+
+                    <label for="licenseClass"><i class="fa-solid fa-address-card"></i>
+                        Førerkortklasse påkrevd for å kunne kjøre
+                        <span class="required-mark">*</span></label>
+                    <select name="licenseClass" id="licenseClass" required>
+                        <option value=""></option>
+                        <option value="B">B - Personbil</option>
+                        <option value="BE">
+                            BE - Personbil med tilhenger
+                        </option>
+                        <option value="C">C - Lastebil</option>
+                        <option value="D1">D1 - Minibuss</option>
+                        <option value="T">T - Traktor</option>
+                    </select>
+
+                    <label for="fuelType"><i class="fa-solid fa-gas-pump"></i> Drivstofftype
+                        <span class="required-mark">*</span></label>
+                    <select name="fuelType" id="fuelType" required>
+                        <option value=""></option>
+                        <option value="Gasoline">Bensin</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="Electric">Elektrisk</option>
+                    </select>
+
+                    <label for="transmissionType"><i class="fa-solid fa-gears"></i> Girtype
+                        <span class="required-mark">*</span></label>
+                    <select name="transmissionType" id="transmissionType" required>
+                        <option value=""></option>
+                        <option value="Manual">Manuelt gir</option>
+                        <option value="Automatic">Automatgir</option>
+                    </select>
+
+                    <label for="wheelDriveType"><i class="fa-solid fa-tire"></i> Hjuldrift
+                        <span class="required-mark">*</span></label>
+                    <select name="wheelDriveType" id="wheelDriveType" required>
+                        <option value=""></option>
+                        <option value="Rear wheel drive">
+                            Bakhjulsdrift
+                        </option>
+                        <option value="Front wheel drive">
+                            Forhjulsdrift
+                        </option>
+                        <option value="All wheel drive">
+                            Firehjulstrekk
+                        </option>
+                    </select>
+
+                    <label for="seatAmount"><i class="fa-solid fa-person-seat"></i> Antall
+                        seter <span class="required-mark">*</span></label>
+                    <input type="number" name="seatAmount" id="seatAmount" min="1" max="16" required />
+
+                    <label for="costPerHourInNok"><i class="fa-solid fa-tag"></i> Pris per time i kr
+                        <span class="required-mark">*</span></label>
+                    <input type="number" name="costPerHourInNok" id="costPerHourInNok" min="1" max="10000" placeholder="Kr" required />
+
+                    <label for="advertTitle"><i class="fa-solid fa-square-info"></i> Tittel for annonsen
+                        <span class="required-mark">*</span></label>
+                    <input type="text" name="advertTitle" id="advertTitle" placeholder="Romslig bil med 5 seter" required />
+
+                    <label for="advertDescription"><i class="fa-solid fa-square-info"></i> Beskrivelse
+                        av annonsen
+                        <span class="required-mark">*</span></label>
+                    <textarea name="advertDescription" id="advertDescription" placeholder="Din beskrivelse..." rows="1" cols="1" required></textarea>
+                </fieldset>
+
+                <fieldset>
+                    <legend>
+                        <h3>Valgfri informasjon</h3>
+                    </legend>
+
+                    <label for="vehicleImages"><i class="fa-solid fa-images"></i> Bilder av
+                        bilen</label>
+                    <input type="file" name="vehicleImages" id="vehicleImages" accept="image/png, image/jpeg" multiple />
+
+                    <label for="streetAddress"><i class="fa-solid fa-map-location-dot"></i>
+                        Adresse, postkode og poststed</label>
+                    <div class="multi-field">
+                        <input type="text" name="streetAddress" id="streetAddress" placeholder="Gateadresse" />
+                        <input type="number" name="postalCode" id="postalCode" placeholder="Postkode" min="1" max="9999" />
+                        <input type="text" name="city" id="city" placeholder="Poststed" />
+                    </div>
+
+                    <label for="streetAddress"><i class="fa-solid fa-square-info"></i> Merke,
+                        modell og modellår</label>
+                    <div class="multi-field">
+                        <input type="text" name="brand" id="brand" placeholder="Merke" />
+                        <input type="text" name="model" id="model" placeholder="Modell" />
+                        <input type="number" name="modelYear" id="modelYear" placeholder="Modellår" min="1900" max="2100" />
+                    </div>
+
+                    <label for="mileageInKm"><i class="fa-solid fa-gauge-high"></i> Kilometerstand
+                        på bilen</label>
+                    <input type="number" name="mileageInKm" id="mileageInKm" placeholder="Antall kilometer" min="0" max="999999" />
+
+                    <label for="mileageInKm"><i class="fa-solid fa-weight-hanging"></i> Vekten
+                        til bilen i kg</label>
+                    <input type="number" name="weightInKg" id="weightInKg" placeholder="Vekt i kg" min="1" max="99999" />
+
+                    <label for="color"><i class="fa-solid fa-palette"></i> Farge på
+                        bilen</label>
+                    <select name="color" id="color">
+                        <option value=""></option>
+                        <option value="Hvit">Hvit</option>
+                        <option value="Svart">Svart</option>
+                        <option value="Grå">Grå</option>
+                        <option value="Rød">Rød</option>
+                        <option value="Grønn">Grønn</option>
+                        <option value="Blå">Blå</option>
+                        <option value="Gul">Gul</option>
+                    </select>
+
+                    <label for="isPublished"><i class="fa-solid fa-caravan-simple"></i> Har
+                        bilen hengerfeste?</label>
+                    <p class="form-checkbox-confirm has-hitch">
+                        <input type="checkbox" name="hasHitch" id="hasHitch" />
+                        Bilen har hengerfeste
+                    </p>
+                </fieldset>
+
+                <label for="isPublished">Vil du publisere med en gang?</label>
+                <p class="form-checkbox-confirm">
+                    <input type="checkbox" name="isPublished" id="isPublished" checked />
+                    Publiser annonsen og gjør den synlig for andre
+                </p>
+
+                <button type="submit">
+                    <b>Registrer bil &nbsp;<i class="fa-solid fa-arrow-right"></i></b>
+                </button>
+            </form>
+        </main>
+
+        <%- include('partials/footer'); %>
+    </div>
+</body>
+
+</html>

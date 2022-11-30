@@ -1,0 +1,119 @@
+#profile-page {
+    #grid-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            'nav'
+            'main'
+            'footer';
+        column-gap: 2rem;
+    }
+
+    main {
+        margin-top: 1rem;
+        margin-left: 1rem;
+    }
+
+    #profile-top-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        button {
+            margin-top: 1rem;
+        }
+
+        #profile-header {
+            display: flex;
+            align-items: center;
+
+            h1 {
+                margin: 0;
+            }
+
+            img {
+                height: 60px;
+                width: 60px;
+                margin-right: 0.5rem;
+            }
+        }
+
+    }
+
+    #my-cars-section {
+        display: flex;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        gap: 1rem;
+        margin-top: 1rem;
+
+        #my-cars-header {
+            flex-basis: 100%;
+
+            h2 {
+                margin: 0;
+            }
+
+            p {
+                margin: 0;
+            }
+
+            button {
+                margin-top: 1rem;
+            }
+        }
+
+    }
+}
+
+@media only screen and (min-width: 500px) {
+    #profile-page {
+        #profile-top-section {
+            flex-direction: row;
+
+            button {
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    #profile-page {
+        #grid-container {
+            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr;
+            grid-template-rows: auto auto auto auto;
+            grid-template-areas:
+                'header header header header header header'
+                'nav nav nav nav nav nav'
+                'main main main main main main'
+                'footer footer footer footer footer footer';
+        }
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    #profile-page {
+        #grid-container {
+            grid-template-areas:
+                'header header header header header header'
+                'nav nav nav nav nav nav'
+                '. main main main main .'
+                'footer footer footer footer footer footer';
+        }
+    }
+}
+
+@media only screen and (min-width: 2000px) {
+    #profile-page {
+        #grid-container {
+            grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1.5fr;
+            grid-template-areas:
+                'header header header header header header'
+                'nav nav nav nav nav nav'
+                '. main main main main .'
+                'footer footer footer footer footer footer';
+        }
+    }
+}

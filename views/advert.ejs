@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="nb">
+<%- include('partials/head'); %>
+
+<body id="carPage">
+    <div id="grid-container">
+        <%- include('partials/navbar'); %>
+
+        <main>
+            <% if(vehicleAdvert.vehicleImages.length > 1) { %>
+            <div class="main-carousel" data-flickity='{ "imagesLoaded": true, "fade": true, "cellAlign": "center" }'>
+                <% vehicleAdvert.vehicleImages.forEach((image) => {%>
+                <div class="carousel-cell">
+                    <img src="<%= image.fileLocation %>" class="carousel-image">
+                </div>
+                <% }); %>
+            </div>
+            <% } else if(typeof vehicleAdvert.vehicleImages[0] === 'undefined') { %>
+            <img src="/uploads/advertPlaceholderImage.webp" alt="" srcset="" />
+            <% } else { %>
+            <img src="<%= vehicleAdvert.vehicleImages[0].fileLocation %>" class="single-image">
+            <% } %>
+
+            <% if(vehicleAdvert.fuelType.type === 'Electric') { %>
+            <h1><i class="fa-solid fa-car-side-bolt"></i>&nbsp; <%= vehicleAdvert.advertTitle %></h1>
+            <% } else { %>
+            <h1><i class="fa-solid fa-car-side"></i>&nbsp; <%= vehicleAdvert.advertTitle %></h1>
+            <% } %>
+
+            <div id="summary">
+                <h3>Oppsummering</h3>
+                <p><b><i class="fa-solid fa-tag"></i> &nbsp;Pris: <%= vehicleAdvert.costPerHourInNok %> kr/t</b></p>
+                <p><b><i class="fa-solid fa-gears"></i> &nbsp;Girtype: <%= vehicleAdvert.transmissionType.description %></b></p>
+                <p><b><i class="fa-solid fa-gas-pump"></i> &nbsp;Drivstoff: <%= vehicleAdvert.fuelType.description %></b></p>
+                <p><b><i class="fa-solid fa-person-seat"></i> &nbsp;Seter: <%= vehicleAdvert.seatAmount %></b></p>
+                <p><b><i class="fa-solid fa-star"></i> &nbsp;Anmeldelser: Ingen</b></p>
+            </div>
+
+            <div id="description">
+                <h3>Beskrivelse</h3>
+                <p><%= vehicleAdvert.advertDescription %></p>
+            </div>
+
+            <div id="specifications">
+                <h3>Andre spesifikasjoner og detaljer</h3>
+
+                <p><i class="fa-solid fa-hashtag"></i> &nbsp;Registreringsnummer: <%= vehicleAdvert.registrationNumber %></p>
+
+                <% if(vehicleAdvert.brand) { %>
+                <p><i class="fa-solid fa-square-info"></i> &nbsp;Merke: <%= vehicleAdvert.brand %></p>
+                <% } %>
+
+                <% if(vehicleAdvert.model) { %>
+                <p><i class="fa-solid fa-square-info"></i> &nbsp;Modell: <%= vehicleAdvert.model %></p>
+                <% } %>
+
+                <% if(vehicleAdvert.modelYear) { %>
+                <p><i class="fa-solid fa-square-info"></i> &nbsp;Modellår: <%= vehicleAdvert.modelYear %></p>
+                <% } %>
+
+                <% if(vehicleAdvert.wheelDriveType) { %>
+                <p><i class="fa-solid fa-tire"></i> &nbsp;Hjuldrift: <%= vehicleAdvert.wheelDriveType.description %></p>
+                <% } %>
+
+                <% if(typeof vehicleAdvert.hasHitch !== 'Undefined') { %>
+                <% let hitch = vehicleAdvert.hasHitch ? 'Ja' : 'Nei'; %>
+                <p><i class="fa-solid fa-caravan-simple"></i> &nbsp;Støtte for tilhenger: <%= hitch %></p>
+                <% } %>
+
+                <% if(vehicleAdvert.mileageInKm) { %>
+                <p><i class="fa-solid fa-gauge-high"></i> &nbsp;Kilometerstand: <%= vehicleAdvert.mileageInKm %> km</p>
+                <% } %>
+
+                <% if(vehicleAdvert.weightInKg) { %>
+                <p><i class="fa-solid fa-weight-hanging"></i> &nbsp;Bilens vekt: <%= vehicleAdvert.weightInKg %> kg</p>
+                <% } %>
+
+                <% if(vehicleAdvert.color) { %>
+                <p><i class="fa-solid fa-palette"></i> &nbsp;Farge: <%= vehicleAdvert.color %></p>
+                <% } %>
+
+            </div>
+
+        </main>
+
+        <aside>
+            <h3>Meld interesse</h3>
+            <div id="renterProfileCard">
+                <img src="<%= vehicleAdvert.owner.profileImageFileLocation %>" width="40" height="40">
+                <div class="profile-card-text">
+                    <a href="/profile/<%=vehicleAdvert.owner.uuid %>"><b><%= vehicleAdvert.owner.firstName %> <%= vehicleAdvert.owner.lastName %></b></a>
+                    <small><%= vehicleAdvert.createdTimestamp.toLocaleString() %></small>
+                </div>
+                <% if(vehicleAdvert.streetAddress && vehicleAdvert.city && vehicleAdvert.postalCode) { %>
+                <p class="address"><i class="fa-solid fa-map-location-dot"></i> &nbsp;Adresse: <%= vehicleAdvert.streetAddress %>, <%= vehicleAdvert.postalCode %> <%= vehicleAdvert.city %></p>
+                <% } %>
+            </div>
+
+            <% if(vehicleAdvert.streetAddress && vehicleAdvert.city && vehicleAdvert.postalCode) { %>
+            <h4>Ekstra informasjon</h4>
+            <p class="licenseInfo"><i class="fa-solid fa-address-card"></i>&nbsp; Eier av annonsen har opplyst om at førerkort med klasse <%= vehicleAdvert.licenseClass.className %> - <%= vehicleAdvert.licenseClass.classDescription %> kreves for dette kjøretøyet.</p>
+            <% } %>
+
+            <% if(user && vehicleAdvert.owner.uuid == user.uuid) { %>
+            <% } else if (user) { %>
+            <button>
+                <a href="/messages/<%= vehicleAdvert.owner.uuid %>">Book nå &nbsp;<i class="fa-solid fa-message-lines"></i></a>
+            </button>
+            <% } else {%>
+            <button>
+            <a href="/login">Logg inn og book &nbsp;<i class="fa-solid fa-right-to-bracket"></i></a>
+            </button>
+            <% } %>
+        </aside>
+
+        <%- include('partials/footer'); %>
+    </div>
+</body>
+
+</html>

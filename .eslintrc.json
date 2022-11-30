@@ -1,0 +1,74 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true,
+        "node": true,
+        "jest": true
+    },
+    "extends": "eslint:recommended",
+    "overrides": [],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "plugins": ["prettier"],
+    "ignorePatterns": ["*.min.js"],
+    "rules": {
+        "prettier/prettier": "error",
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"],
+        "no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "next"
+            }
+        ],
+        "arrow-body-style": ["error", "always"],
+        "array-bracket-spacing": ["error", "never"],
+        "object-curly-spacing": ["error", "always"],
+        "jsx-quotes": ["error", "prefer-single"],
+        "key-spacing": [
+            "error",
+            {
+                "afterColon": true,
+                "mode": "minimum"
+            }
+        ],
+        "no-trailing-spaces": [
+            "error",
+            {
+                "skipBlankLines": true,
+                "ignoreComments": true
+            }
+        ],
+        "no-whitespace-before-property": ["error"],
+        "space-before-blocks": ["error", "always"],
+        "dot-location": ["error", "property"],
+        "curly": ["error", "all"],
+        "camelcase": [
+            "error",
+            {
+                "properties": "always"
+            }
+        ],
+        "eqeqeq": ["error", "smart"],
+        "max-len": [
+            "error",
+            {
+                "code": 100,
+                "tabWidth": 4,
+                "ignoreStrings": true,
+                "ignoreUrls": true,
+                "ignoreTrailingComments": true,
+                "ignoreRegExpLiterals": true
+            }
+        ]
+    }
+}

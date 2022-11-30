@@ -1,0 +1,141 @@
+body {
+    background: $white;
+    color: $primary-dark;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    -ms-overflow-style: none;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+main,
+aside {
+    background-color: white;
+    box-shadow: 0 2px 10px $primary-light;
+    border-radius: 0.25rem;
+    margin: 1rem;
+}
+
+img {
+    width: 100%;
+    border-radius: 0.5rem;
+    display: block;
+}
+
+article {
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: $primary-dark;
+}
+
+i {
+    color: $primary-color;
+}
+
+p {
+    margin-top: 0.5rem;
+}
+
+form {
+    input,
+    select {
+        margin-top: 0.25rem;
+        border: 1px solid $primary-dark;
+        border-radius: 0.25rem;
+        font-weight: 700;
+    }
+
+    i {
+        color: $primary-color;
+    }
+
+    label {
+        display: block;
+        font-weight: 700;
+
+        &:not(:first-child) {
+            margin-top: 1rem;
+        }
+    }
+
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    button:focus-visible {
+        outline: 0.15rem solid $primary-color;
+        outline-offset: 0rem;
+    }
+}
+
+fieldset {
+    padding: 1rem;
+    width: 100%;
+    border-radius: 0.25rem;
+    border-color: $primary-dark;
+
+    h3 {
+        margin: 0;
+    }
+
+    &:last-of-type {
+        margin-top: 2rem;
+    }
+
+    label:first-of-type {
+        margin-top: 0;
+    }
+}
+
+::selection {
+    background-color: $primary-dark;
+    color: $primary-light;
+}
+
+#navbar ::selection,
+footer ::selection {
+    background-color: $primary-light;
+    color: $primary-dark;
+}
+
+input,
+select {
+    padding: 0.5rem;
+
+    &:focus {
+        outline: $primary-light solid 2px;
+        border-radius: 0.2rem;
+    }
+
+    width: 100%;
+}
+
+*::-webkit-scrollbar {
+    overflow: scroll;
+    background-color: white;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: $primary-light;
+}
+
+.required-mark {
+    color: rgb(228, 54, 54);
+}
+
+.optional-mark {
+    color: $primary-light;
+}

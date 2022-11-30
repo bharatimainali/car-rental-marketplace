@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="nb">
+<%- include('partials/head'); %>
+
+<body id="newAdvertPage">
+    <div id="grid-container">
+        <%- include('partials/navbar'); %>
+
+        <main>
+            <h1>
+                <i class="fa-solid fa-car"></i> <%= routeConfig.pageConfig.pageName %>
+            </h1>
+
+            <form action="/adverts/<%= vehicleAdvert.uuid %>/edit" method="post" enctype="multipart/form-data" class="vehicle-registration-form">
+                <fieldset>
+                    <legend>
+                        <h3>Nødvendig informasjon</h3>
+                    </legend>
+
+                    <label for="registrationNumber"><i class="fa-solid fa-hashtag"></i>
+                        Registreringsnummer
+                        <span class="required-mark">*</span></label>
+                    <div>
+                        <input type="text" name="registrationNumber" id="registrationNumber" placeholder="AB 12345" value="<%= vehicleAdvert.registrationNumber %>" required disabled />
+                        <button type="button" disabled>
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </button>
+                    </div>
+                    <p>
+                        <i>(Knappen vil hente info fra reg. nr. via Statens Vegvesen
+                            API, ikke implementert...)</i>
+                    </p>
+
+                    <label for="licenseClass"><i class="fa-solid fa-address-card"></i>
+                        Førerkortklasse påkrevd for å kunne kjøre
+                        <span class="required-mark">*</span></label>
+                    <select name="licenseClass" id="licenseClass" required>
+                        <option value=""></option>
+                        <option value="B" <%= vehicleAdvert.licenseClass.className === 'B' ? 'selected' : '' %>>B - Personbil</option>
+                        <option value="BE" <%= vehicleAdvert.licenseClass.className === 'BE' ? 'selected' : '' %>>
+                            BE - Personbil med tilhenger
+                        </option>
+                        <option value="C" <%= vehicleAdvert.licenseClass.className === 'C' ? 'selected' : '' %>>C - Lastebil</option>
+                        <option value="D1" <%= vehicleAdvert.licenseClass.className === 'D1' ? 'selected' : '' %>>D1 - Minibuss</option>
+                        <option value="T" <%= vehicleAdvert.licenseClass.className === 'T' ? 'selected' : '' %>>T - Traktor</option>
+                    </select>
+
+                    <label for="fuelType"><i class="fa-solid fa-gas-pump"></i> Drivstofftype
+                        <span class="required-mark">*</span></label>
+                    <select name="fuelType" id="fuelType" required>
+                        <option value=""></option>
+                        <option value="Gasoline" <%= vehicleAdvert.fuelType.type === 'Gasoline' ? 'selected' : '' %>>Bensin</option>
+                        <option value="Diesel" <%= vehicleAdvert.fuelType.type === 'Diesel' ? 'selected' : '' %>>Diesel</option>
+                        <option value="Electric" <%= vehicleAdvert.fuelType.type === 'Electric' ? 'selected' : '' %>>Elektrisk</option>
+                    </select>
+
+                    <label for="transmissionType"><i class="fa-solid fa-gears"></i> Girtype
+                        <span class="required-mark">*</span></label>
+                    <select name="transmissionType" id="transmissionType" required>
+                        <option value=""></option>
+                        <option value="Manual" <%= vehicleAdvert.transmissionType.type === 'Manual' ? 'selected' : '' %>>Manuelt gir</option>
+                        <option value="Automatic" <%= vehicleAdvert.transmissionType.type === 'Automatic' ? 'selected' : '' %>>Automatgir</option>
+                    </select>
+
+                    <label for="wheelDriveType"><i class="fa-solid fa-tire"></i> Hjuldrift
+                        <span class="required-mark">*</span></label>
+                    <select name="wheelDriveType" id="wheelDriveType" required>
+                        <option value=""></option>
+                        <option value="Rear wheel drive" <%= vehicleAdvert.wheelDriveType.type === 'Rear wheel drive' ? 'selected' : '' %>>
+                            Bakhjulsdrift
+                        </option>
+                        <option value="Front wheel drive" <%= vehicleAdvert.wheelDriveType.type === 'Front wheel drive' ? 'selected' : '' %>>
+                            Forhjulsdrift
+                        </option>
+                        <option value="All wheel drive" <%= vehicleAdvert.wheelDriveType.type === 'All wheel drive' ? 'selected' : '' %>>
+                            Firehjulstrekk
+                        </option>
+                    </select>
+
+                    <label for="seatAmount"><i class="fa-solid fa-person-seat"></i> Antall
+                        seter <span class="required-mark">*</span></label>
+                    <input type="number" name="seatAmount" id="seatAmount" min="1" max="16" required value='<%= vehicleAdvert.seatAmount %>'/>
+
+                    <label for="costPerHourInNok"><i class="fa-solid fa-tag"></i> Pris per time i kr
+                        <span class="required-mark">*</span></label>
+                    <input type="number" name="costPerHourInNok" id="costPerHourInNok" min="1" max="10000" placeholder="Kr" required value='<%= vehicleAdvert.costPerHourInNok %>'/>
+
+                    <label for="advertTitle"><i class="fa-solid fa-square-info"></i> Tittel for annonsen
+                        <span class="required-mark">*</span></label>
+                    <input type="text" name="advertTitle" id="advertTitle" placeholder="Romslig bil med 5 seter" required value='<%= vehicleAdvert.advertTitle %>'/>
+
+                    <label for="advertDescription"><i class="fa-solid fa-square-info"></i> Beskrivelse
+                        av annonsen
+                        <span class="required-mark">*</span></label>
+                    <textarea name="advertDescription" id="advertDescription" placeholder="Din beskrivelse..." rows="1" cols="1" required><%= vehicleAdvert.advertDescription %></textarea>
+                </fieldset>
+
+                <fieldset>
+                    <legend>
+                        <h3>Valgfri informasjon</h3>
+                    </legend>
+
+                    <label for="vehicleImages"><i class="fa-solid fa-images"></i> Bilder av
+                        bilen (OBS! Må lastes opp på nytt)</label>
+                    <input type="file" name="vehicleImages" id="vehicleImages" accept="image/png, image/jpeg" multiple />
+
+                    <label class="keep-images" for="keepImages">Vil du beholde tidligere bilder?</label>
+                    <p class="form-checkbox-confirm has-hitch">
+                        <input type="checkbox" name="keepImages" id="keepImages" checked/>
+                        Behold tidligere bilder
+                    </p>
+
+                    <label for="streetAddress"><i class="fa-solid fa-map-location-dot"></i>
+                        Adresse, postkode og poststed</label>
+                    <div class="multi-field">
+                        <input type="text" name="streetAddress" id="streetAddress" placeholder="Gateadresse" value='<%= vehicleAdvert.streetAddress ? vehicleAdvert.streetAddress : '' %>' />
+                        <input type="number" name="postalCode" id="postalCode" placeholder="Postkode" min="1" max="9999" value='<%= vehicleAdvert.postalCode ? vehicleAdvert.postalCode : '' %>' />
+                        <input type="text" name="city" id="city" placeholder="Poststed" value='<%= vehicleAdvert.city ? vehicleAdvert.city : '' %>' />
+                    </div>
+
+                    <label for="streetAddress"><i class="fa-solid fa-square-info"></i> Merke,
+                        modell og modellår</label>
+                    <div class="multi-field">
+                        <input type="text" name="brand" id="brand" placeholder="Merke" value='<%= vehicleAdvert.brand ? vehicleAdvert.brand : '' %>' />
+                        <input type="text" name="model" id="model" placeholder="Modell" value='<%= vehicleAdvert.model ? vehicleAdvert.model : '' %>' />
+                        <input type="number" name="modelYear" id="modelYear" placeholder="Modellår" min="1900" max="2100" value='<%= vehicleAdvert.modelYear ? vehicleAdvert.modelYear : '' %>' />
+                    </div>
+
+                    <label for="mileageInKm"><i class="fa-solid fa-gauge-high"></i> Kilometerstand
+                        på bilen</label>
+                    <input type="number" name="mileageInKm" id="mileageInKm" placeholder="Antall kilometer" min="0" max="999999" value='<%= vehicleAdvert.mileageInKm ? vehicleAdvert.mileageInKm: '' %>' />
+
+                    <label for="weightInKg"><i class="fa-solid fa-weight-hanging"></i> Vekten
+                        til bilen i kg</label>
+                    <input type="number" name="weightInKg" id="weightInKg" placeholder="Vekt i kg" min="1" max="99999" value='<%= vehicleAdvert.weightInKg ? vehicleAdvert.weightInKg : '' %>' />
+
+                    <label for="color"><i class="fa-solid fa-palette"></i> Farge på
+                        bilen</label>
+                    <select name="color" id="color">
+                        <option value=""></option>
+                        <option value="Hvit" <%= vehicleAdvert.color === 'Hvit' ? 'selected' : '' %>>Hvit</option>
+                        <option value="Svart" <%= vehicleAdvert.color === 'Svart' ? 'selected' : '' %>>Svart</option>
+                        <option value="Grå" <%= vehicleAdvert.color === 'Grå' ? 'selected' : '' %>>Grå</option>
+                        <option value="Rød" <%= vehicleAdvert.color === 'Rød' ? 'selected' : '' %>>Rød</option>
+                        <option value="Grønn" <%= vehicleAdvert.color === 'Grønn' ? 'selected' : '' %>>Grønn</option>
+                        <option value="Blå" <%= vehicleAdvert.color === 'Blå' ? 'selected' : '' %>>Blå</option>
+                        <option value="Gul" <%= vehicleAdvert.color === 'Gul' ? 'selected' : '' %>>Gul</option>
+                    </select>
+
+                    <label for="isPublished"><i class="fa-solid fa-caravan-simple"></i> Har
+                        bilen hengerfeste?</label>
+                    <p class="form-checkbox-confirm has-hitch">
+                        <input type="checkbox" name="hasHitch" id="hasHitch" <%= vehicleAdvert.hasHitch ? 'checked' : '' %>/>
+                        Bilen har hengerfeste
+                    </p>
+                </fieldset>
+
+                <label for="isPublished">Skal annonsen være publisert?</label>
+                <p class="form-checkbox-confirm">
+                    <input type="checkbox" name="isPublished" id="isPublished" <%= vehicleAdvert.isPublished ? 'checked' : '' %> />
+                    Publiser annonsen og gjør den synlig for andre
+                </p>
+
+                <button type="submit">
+                    <b>Lagre endringer &nbsp;<i class="fa-solid fa-arrow-right"></i></b>
+                </button>
+            </form>
+        </main>
+
+        <%- include('partials/footer'); %>
+    </div>
+</body>
+
+</html>

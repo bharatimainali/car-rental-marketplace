@@ -1,0 +1,90 @@
+#messagePage {
+    .message-item-wrapper {
+        &:not(:first-child) {
+            margin-top: 0.5rem;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        h3 {
+            margin: 0;
+            color: $primary-dark;
+        }
+    }
+
+    .message-list-item {
+        background-color: $white;
+        border-radius: 0.25rem;
+        padding: 0.75rem;
+        box-shadow: 0 2px 3px $primary-light;
+
+        a {
+            font-weight: 700;
+            font-size: 1.17em;
+            text-decoration: none;
+            color: $primary-dark;
+            margin: 0;
+        }
+
+        p {
+            margin: 0;
+            color: $primary-dark;
+        }
+
+        &:hover {
+            filter: brightness(95%);
+            transition: 0.15s;
+        }
+    }
+
+    .message-item {
+        background-color: $white;
+        border-radius: 0.25rem;
+        padding: 0.75rem;
+        box-shadow: 0 2px 3px $primary-light;
+
+        &:not(:first-child) {
+            margin-top: 0.5rem;
+        }
+
+        h3 {
+            margin: 0;
+        }
+
+        p {
+            margin: 0;
+        }
+    }
+
+    .message-sent {
+        background-color: #e4e9f0;
+        margin-left: 3rem;
+        border-radius: 1rem;
+        border-bottom-right-radius: 0.25rem;
+    }
+
+    .message-received {
+        margin-right: 3rem;
+        border-radius: 1rem;
+        border-bottom-left-radius: 0.25rem;
+    }
+
+    .hidden-form-element {
+        display: none;
+    }
+
+    form {
+        margin-top: 2rem;
+        textarea {
+            width: 100%;
+            border: 2px solid $primary-dark;
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+        }
+        button {
+            padding: 0.5rem;
+        }
+    }
+}

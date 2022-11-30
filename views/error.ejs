@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="nb">
+<%- include('partials/head'); %>
+
+<body id="errorPage">
+    <div id="grid-container">
+        <%- include('partials/navbar'); %>
+
+        <main>
+            <h1>
+                <i class="fa-solid fa-car-burst"></i> <%= routeConfig.pageConfig.pageName %> <%= error.status %>
+            </h1>
+            <pre><%= error.stack %></pre>
+        </main>
+
+        <%- include('partials/footer'); %>
+    </div>
+</body>
+
+</html>

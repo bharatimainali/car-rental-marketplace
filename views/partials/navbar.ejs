@@ -1,0 +1,63 @@
+<nav id="navbar-mobile">
+    <div id="navbar-centered">
+        <ul>
+            <li>
+                <a href="/"><i class="fa-solid fa-house"></i> &nbsp;</a>
+            </li>
+            <li>
+                <a href="/adverts"><i class="fa-solid fa-car-side"></i> &nbsp;Annonser</a>
+            </li>
+            <% if (user) { %>
+                <li>
+                    <a href="/messages"
+                        ><i class="fa-solid fa-messages"></i> &nbsp;Meldinger</a
+                    >
+                </li>
+                <% } %> <% if (user) { %>
+                <li>
+                    <a href="/profile"><i class="fa-solid fa-user"></i> &nbsp;Profil</a>
+                </li>
+                <% } else { %>
+                <li>
+                    <a href="/login"
+                        ><i class="fa-solid fa-right-to-bracket"></i> &nbsp;Logg inn</a
+                    >
+                </li>
+                <% } %>
+        </ul>
+    </div>
+</nav>
+<nav id="navbar-desktop">
+    <div id="navbar-left">
+        <ul>
+            <li>
+                <a href="/"><i class="fa-solid fa-house"></i> &nbsp;Forside</a>
+            </li>
+            <li>
+                <a href="/adverts"><i class="fa-solid fa-car-side"></i> &nbsp;Leieannonser</a>
+            </li>
+        </ul>
+    </div>
+    <div id="navbar-right">
+        <ul>
+            <% if (user) { %>
+            <li>
+                <a href="/messages"
+                    ><i class="fa-solid fa-messages"></i> &nbsp;Meldinger</a
+                >
+            </li>
+            <% } %> <% if (user) { %>
+            <li>
+                <a href="/profile"><i class="fa-solid fa-user"></i> &nbsp;Min Profil</a>
+            </li>
+            <% } else { %>
+            <li>
+                <a href="/login"
+                    ><i class="fa-solid fa-right-to-bracket"></i> &nbsp;Logg inn</a
+                >
+            </li>
+            <% } %>
+        </ul>
+    </div>
+</nav>
+

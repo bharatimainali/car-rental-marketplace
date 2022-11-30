@@ -1,0 +1,48 @@
+#errorPage {
+    main {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+        margin-left: 1rem;
+    }
+    pre {
+        word-wrap: normal;
+        overflow-x: auto;
+        white-space: pre;
+        width: calc(100vw - 5rem);
+    }
+    h1 {
+        text-align: center;
+    }
+}
+
+#errorPage #grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+        'nav'
+        'main'
+        'footer';
+}
+
+@media only screen and (min-width: 1000px) {
+    #errorPage #grid-container {
+        grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+            'header header header header header header'
+            'nav nav nav nav nav nav'
+            'main main main main main main'
+            'footer footer footer footer footer footer';
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    #errorPage #grid-container {
+        grid-template-areas:
+            'header header header header header header'
+            'nav nav nav nav nav nav'
+            '. main main main main .'
+            'footer footer footer footer footer footer';
+    }
+}

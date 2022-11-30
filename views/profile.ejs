@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="nb">
+<%- include('partials/head'); %>
+
+<body id="profile-page">
+    <div id="grid-container">
+        <%- include('partials/navbar'); %>
+
+        <main>
+            <div id="profile-top-section">
+                <section id="profile-header">
+                    <img src="<%= profileUser.profileImageFileLocation %>" alt="">
+                    <h1>
+                        <%= profileUser.firstName %> <%= profileUser.lastName %>
+                    </h1>
+                </section>
+                <% if (user && user.uuid == profileUser.uuid) { %>
+                <button type="button">
+                    <a href="/logout">Logg ut &nbsp;<i class="fa-solid fa-right-from-bracket"></i></a>
+                </button>
+                <% } %>
+            </div>
+
+            <div id="my-cars-section">
+                <div id="my-cars-header">
+                    <% if (user && user.uuid == profileUser.uuid) { %>
+                    <h2>Dine annonser</h2>
+                    <p>Trykk på "Opprett annonse" for å opprette en ny annonse, eller velg "Rediger" eller "Slett" på en enkelt annonse.</p>
+                    <button type="button" name="addCarButton">
+                        <a href="./adverts/new">Opprett annonse &nbsp;<i class="fa-solid fa-plus"></i></a>
+                    </button>
+                    <% } else { %>
+                    <h2>Publiserte annonser</h2>
+                    <% } %>
+                </div>
+
+                <% vehicleAdverts.forEach((vehicle) => { %>
+                <article class="car-card">
+                    <a href="/adverts/<%=vehicle.uuid %>">
+                        <section>
+                            <% if(typeof vehicle.vehicleImages[0] ===
+                                'undefined') { %>
+                            <img src="/uploads/advertPlaceholderImage.webp" alt="" srcset="" />
+                            <% } else { %>
+                            <img src="<%= vehicle.vehicleImages[0].fileLocation %>" alt="" srcset="" />
+                            <% } %>
+                        </section>
+                        <section>
+                            <h4><%= vehicle.advertTitle %></h4>
+                            <div class="price-and-location">
+                                <% if (!vehicle.city) { %> <% } else { %>
+                                <p>
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                    <%= vehicle.city %>
+                                </p>
+                                <% } %>
+                                <p>
+                                    <i class="fa-solid fa-tag"></i> <%= vehicle.costPerHourInNok %> kr per time
+                                </p>
+                            </div>
+                            <div class="tags">
+                                <p class="tag">
+                                    <i class="fa-solid fa-gas-pump"></i> <%= vehicle.fuelType.description %>
+                                </p>
+                                <p class="tag">
+                                    <i class="fa-solid fa-gears"></i> <%= vehicle.transmissionType.description %>
+                                </p>
+                                <p class="tag">
+                                    <i class="fa-solid fa-person-seat"></i>
+                                    <%= vehicle.seatAmount %> seter
+                                </p>
+                                <% if (!vehicle.brand) { %> <% } else { %>
+                                <p class="tag">
+                                    <i class="fa-solid fa-square-info"></i>
+                                    <%= vehicle.brand %>
+                                </p>
+                                <% } %> <% if (!vehicle.model) { %> <% }
+                                    else { %>
+                                <p class="tag">
+                                    <i class="fa-solid fa-square-info"></i>
+                                    <%= vehicle.model %>
+                                </p>
+                                <% } %>
+                            </div>
+                        </section>
+                    </a>
+                    <% if (user && user.uuid == profileUser.uuid) { %>
+                    <section class="advert-actions">
+                        <button>
+                            <a href="/adverts/<%=vehicle.uuid %>/edit"><i class="fa-solid fa-pen-to-square"></i> &nbsp;Rediger</a>
+                        </button>
+                        <button>
+                            <a href="/adverts/<%=vehicle.uuid %>/delete">Slett &nbsp;<i class="fa-solid fa-trash"></i></a>
+                        </button>
+                    </section>
+                    <% } %>
+                </article>
+                <% }); %>
+            </div>
+        </main>
+
+        <%- include('partials/footer'); %>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="nb">
+<%- include('partials/head'); %>
+
+<body id="loginPage">
+    <div id="grid-container">
+        <%- include('partials/navbar'); %>
+
+        <main>
+            <h1>
+                <i class="fa-solid fa-right-to-bracket"></i> <%= routeConfig.pageConfig.pageName %>
+            </h1>
+
+            <div>
+                <form action="/login" method="POST" class="login-form">
+                    <fieldset>
+                        <legend>
+                            <h3>Logg inn</h3>
+                        </legend>
+
+                        <label for="userUuid">Velg bruker</label>
+                        <select name="userUuid" id="userUuid">
+                            <% users.forEach((user) => { %>
+                            <option value="<%= user.uuid %>"><%= user.firstName %> <%= user.lastName %></option>
+                            <% }); %>
+                        </select>
+                        <button type="submit">
+                            <b>Logg inn &nbsp;<i class="fa-solid fa-right-to-bracket"></i></b>
+                        </button>
+                    </fieldset>
+                </form>
+
+                <form action="/login/register" method="POST" enctype="multipart/form-urlencoded" class="registration-form">
+                    <fieldset>
+                        <legend>
+                            <h3>Opprett ny bruker</h3>
+                        </legend>
+
+                        <label for="email"><i class="fa-solid fa-at"></i> Epost adresse
+                            <span class="required-mark">*</span></label>
+                        <input type="email" name="email" id="email" placeholder="ola@nordmann.no" required />
+
+                        <label for="phone"><i class="fa-solid fa-phone"></i> Telefon nummer
+                            <span class="required-mark">*</span></label>
+                        <input type="text" name="phone" id="phone" placeholder="+47 12345678" min="1" max="99999999" required />
+
+                        <label for="firstName"><i class="fa-solid fa-square-info"></i> Fornavn
+                            <span class="required-mark">*</span></label>
+                        <input type="text" name="firstName" id="firstName" placeholder="Ola" required />
+
+                        <label for="lastName"><i class="fa-solid fa-square-info"></i> Etternavn
+                            <span class="required-mark">*</span></label>
+                        <input type="text" name="lastName" id="lastName" placeholder="Nordmann" required />
+                        <button type="submit">
+                            <b>Registrer bruker &nbsp;<i class="fa-solid fa-arrow-right"></i></b>
+                        </button>
+                </form>
+            </div>
+
+            <div>
+                <fieldset>
+                    <legend>
+                        <h3>Informasjon om brukere</h3>
+                    </legend>
+                    <% users.forEach((user) => { %>
+                    <article>
+                        <h4><%= user.firstName %> <%= user.lastName %></h4>
+                        <p>Bruker er av type <%= user.userType.type %>.</p>
+                        <p>Har <%= user.vehicleAdverts.length %> kjøretøy, og <%= user.sentMessages.length + user.receivedMessages.length %> meldinger knyttet til kontoen.</p>
+                    </article>
+                    <% }); %>
+                </fieldset>
+            </div>
+        </main>
+
+
+        <%- include('partials/footer'); %>
+    </div>
+</body>
+
+</html>

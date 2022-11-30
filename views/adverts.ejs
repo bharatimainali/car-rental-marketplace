@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="nb">
+<%- include('partials/head'); %>
+
+<body id="carsPage">
+    <div id="grid-container">
+        <%- include('partials/navbar'); %>
+
+        <aside>
+            <form action="/adverts" method="get">
+                <label for="searchBox"><i class="fa-solid fa-magnifying-glass"></i> Søk i annonser</label>
+                <div id="searchField">
+                    <input type="text" id="searchBox" name="searchBox" placeholder="Søk i tittel, beskrivelse..." <% if(queryParams.searchBox) { %> value="<%= queryParams.searchBox %>" />
+                    <% } else { %>
+                    />
+                    <% } %>
+                    <button><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+
+                <label for="priceFrom"><i class="fa-solid fa-tag"></i> Pris per time</label>
+                <div id="priceRange">
+                    <input type="number" id="priceFrom" name="priceFrom" placeholder="Pris fra i kr" min="1" max="99999" <% if(queryParams.priceFrom) { %> value="<%= queryParams.priceFrom %>" />
+                    <% } else { %>
+                    />
+                    <% } %>
+                    <input type="number" id="priceTo" name="priceTo" placeholder="Pris til i kr" min="1" max="99999" <% if(queryParams.priceTo) { %> value="<%= queryParams.priceTo %>" />
+                    <% } else { %>
+                    />
+                    <% } %>
+                </div>
+
+                <label for="fuelType"><i class="fa-solid fa-gas-pump"></i> Drivstofftype</label>
+                <select class="form-control" id="fuelType" name="fuelType">
+                    <% if(queryParams.fuelType) { %>
+                    <option>Alle typer</option>
+                    <% fuelTypes.forEach((fuelType) => { %>
+                    <% if(fuelType.description == queryParams.fuelType) { %>
+                    <option selected><%= fuelType.description %></option>
+                    <% } else { %>
+                    <option><%= fuelType.description %></option>
+                    <% } %>
+                    <% }); %>
+                    <% } else { %>
+                    <option selected>Alle typer</option>
+                    <% fuelTypes.forEach((fuelType) => { %>
+                    <option><%= fuelType.description %></option>
+                    <% }); %>
+                    <% } %>
+                </select>
+
+                <label for="seatAmount"><i class="fa-solid fa-person-seat"></i> Antall
+                    seter</label>
+                <input type="number" id="seatAmount" name="seatAmount" placeholder="5" min="1" max="12" <% if(queryParams.seatAmount) { %> value="<%= queryParams.seatAmount %>" />
+                <% } else { %>
+                />
+                <% } %>
+
+                <label for="brand"><i class="fa-solid fa-cars"></i> Bilmerke</label>
+                <select class="form-control" id="brand" name="brand">
+                    <% if(queryParams.fuelType) { %>
+                    <option>Alle merker</option>
+                    <% brands.forEach((brand) => { %>
+                    <% if(brand.brand == queryParams.brand && brand.brand != '') { %>
+                    <option selected><%= brand.brand %></option>
+                    <% } else { %>
+                    <option><%= brand.brand %></option>
+                    <% } %>
+                    <% }); %>
+                    <% } else { %>
+                    <option selected>Alle merker</option>
+                    <% brands.forEach((brand) => { %>
+                    <% if (brand.brand == '') { %>
+                    <% } else { %>
+                    <option><%= brand.brand %></option>
+                    <% } %>
+                    <% }); %>
+                    <% } %>
+                </select>
+            </form>
+        </aside>
+
+        <main>
+            <div class="cars-view-header">
+                <h1>
+                    <i class="fa-solid fa-map-location-dot"></i> <%= routeConfig.pageConfig.pageName %>
+                </h1>
+                <% if(user) { %>
+                <button type="button">
+                    <a href="/adverts/new">Opprett annonse &nbsp;<i class="fa-solid fa-plus"></i></a>
+                </button>
+                <% } %>
+            </div>
+
+            <% vehicleAdverts.forEach((vehicle) => { %>
+            <article class="car-card">
+                <a href="adverts/<%=vehicle.uuid %>">
+                    <section>
+                        <% if(typeof vehicle.vehicleImages[0] === 'undefined') { %>
+                        <img src="/uploads/advertPlaceholderImage.webp" alt="" srcset="" />
+                        <% } else { %>
+                        <img src="<%= vehicle.vehicleImages[0].fileLocation %>" alt="" srcset="" />
+                        <% } %>
+                    </section>
+                    <section>
+                        <h4><%= vehicle.advertTitle %></h4>
+                        <div class="price-and-location">
+                            <% if (!vehicle.city) { %> <% } else { %>
+                            <p>
+                                <i class="fa-solid fa-map-location-dot"></i>
+                                <%= vehicle.city %>
+                            </p>
+                            <% } %>
+                            <p>
+                                <i class="fa-solid fa-tag"></i> <%= vehicle.costPerHourInNok %> kr per time
+                            </p>
+                        </div>
+                        <div class="tags">
+                            <p class="tag">
+                                <i class="fa-solid fa-gas-pump"></i> <%= vehicle.fuelType.description %>
+                            </p>
+                            <p class="tag">
+                                <i class="fa-solid fa-gears"></i> <%=  vehicle.transmissionType.description %>
+                            </p>
+                            <p class="tag">
+                                <i class="fa-solid fa-person-seat"></i> <%=  vehicle.seatAmount %> seter
+                            </p>
+                            <% if (!vehicle.brand) { %> <% } else { %>
+                            <p class="tag">
+                                <i class="fa-solid fa-square-info"></i> <%= vehicle.brand %>
+                            </p>
+                            <% } %> <% if (!vehicle.model) { %> <% } else { %>
+                            <p class="tag">
+                                <i class="fa-solid fa-square-info"></i> <%= vehicle.model %>
+                            </p>
+                            <% } %>
+                        </div>
+                    </section>
+                </a>
+            </article>
+            <% }); %>
+        </main>
+
+        <%- include('partials/footer'); %>
+    </div>
+</body>
+
+</html>

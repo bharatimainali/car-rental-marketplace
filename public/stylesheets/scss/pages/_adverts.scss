@@ -1,0 +1,49 @@
+#carsPage main {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    gap: 1rem;
+
+    h1 {
+        flex-basis: 100%;
+    }
+
+    .cars-view-header {
+        flex-basis: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+aside form {
+    display: flex;
+    flex-direction: column;
+}
+
+form #priceRange {
+    display: flex;
+
+    input:first-child {
+        margin-right: 1rem;
+    }
+}
+
+form #searchField {
+    display: flex;
+    align-items: center;
+
+    input:first-child {
+        margin-top: 0;
+        margin-right: 1rem;
+        flex-basis: 90%;
+        flex-grow: 1;
+    }
+
+    input:last-child {
+        flex-basis: 10%;
+    }
+
+    button {
+        padding: 0.5rem 0.6rem;
+    }
+}

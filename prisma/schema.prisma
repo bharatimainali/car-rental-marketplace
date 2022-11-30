@@ -1,0 +1,177 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+}
+
+// Models (tables / collections)
+model User {
+    id                       Int               @id @default(autoincrement())
+    uuid                     String            @unique
+    sessionId                String?           @unique
+    userType                 UserType          @relation(fields: [userTypeId], references: [id])
+    userTypeId               Int
+    createdTimestamp         DateTime          @default(now())
+    email                    String            @unique
+    phone                    String?           @unique
+    firstName                String
+    lastName                 String
+    profileImageFileLocation String?
+    vehicleAdverts           VehicleAdvert[]
+    RentalAgreement          RentalAgreement[]
+    sentMessages             Message[]         @relation("sentMessages")
+    receivedMessages         Message[]         @relation("receivedMessages")
+}
+
+model UserType {
+    id   Int    @id @default(autoincrement())
+    type String @unique
+    user User[]
+}
+
+model VehicleAdvert {
+    id                      Int                    @id @default(autoincrement())
+    uuid                    String                 @unique
+    registrationNumber      String                 @unique
+    owner                   User                   @relation(fields: [ownerUuid], references: [uuid])
+    ownerUuid               String
+    createdTimestamp        DateTime               @default(now())
+    licenseClass            LicenseClass           @relation(fields: [licenseClassId], references: [id])
+    licenseClassId          Int
+    fuelType                FuelType               @relation(fields: [fuelTypeId], references: [id])
+    fuelTypeId              Int
+    vehicleImages           VehicleImage[]
+    transmissionType        TransmissionType       @relation(fields: [transmissionTypeId], references: [id])
+    transmissionTypeId      Int
+    VehicleHasDrivingAid    VehicleHasDrivingAid[]
+    RentalAgreement         RentalAgreement[]
+    wheelDriveType          WheelDriveType?        @relation(fields: [wheelDriveTypeId], references: [id])
+    wheelDriveTypeId        Int
+    streetAddress           String?
+    city                    String?
+    postalCode              String?
+    country                 String                 @default("Norway")
+    seatAmount              Int
+    brand                   String?
+    model                   String?
+    modelYear               Int?
+    weightInKg              Int?
+    mileageInKm             Int?
+    color                   String?
+    hasHitch                Boolean?
+    costPerHourInNok        Int
+    advertTitle             String
+    advertTitleSearch       String
+    advertDescription       String
+    advertDescriptionSearch String
+    isPublished             Boolean                @default(false)
+    AvailableBookings       AvailableBookings[]
+    reservedBookings        ReservedBookings[]
+}
+
+model LicenseClass {
+    id               Int             @id @default(autoincrement())
+    className        String          @unique
+    classDescription String
+    Vehicle          VehicleAdvert[]
+}
+
+model FuelType {
+    id          Int             @id @default(autoincrement())
+    type        String          @unique
+    description String
+    Vehicle     VehicleAdvert[]
+}
+
+model VehicleImage {
+    id               Int           @id @default(autoincrement())
+    fileLocation     String
+    belongsToVehicle VehicleAdvert @relation(fields: [vehicleUuid], references: [uuid])
+    vehicleUuid      String
+}
+
+model TransmissionType {
+    id          Int             @id @default(autoincrement())
+    type        String          @unique
+    description String
+    Vehicle     VehicleAdvert[]
+}
+
+model WheelDriveType {
+    id            Int             @id @default(autoincrement())
+    type          String          @unique
+    description   String
+    VehicleAdvert VehicleAdvert[]
+}
+
+model DrivingAid {
+    id                   Int                    @id @default(autoincrement())
+    name                 String                 @unique
+    VehicleHasDrivingAid VehicleHasDrivingAid[]
+}
+
+model VehicleHasDrivingAid {
+    vehicle      VehicleAdvert @relation(fields: [vehicleUuid], references: [uuid])
+    vehicleUuid  String
+    drivingAid   DrivingAid    @relation(fields: [drivingAidId], references: [id])
+    drivingAidId Int
+
+    @@id([vehicleUuid, drivingAidId])
+}
+
+model RentalAgreement {
+    id               Int           @id @default(autoincrement())
+    createdTimestamp DateTime      @default(now())
+    rentee           User          @relation(fields: [userId], references: [id])
+    userId           Int
+    vehicleAdvert    VehicleAdvert @relation(fields: [vehicleUuid], references: [uuid])
+    vehicleUuid      String
+    agreedStartTime  DateTime
+    agreedEndTime    DateTime
+}
+
+model AvailableBookings {
+    id            Int           @id @default(autoincrement())
+    startTime     DateTime
+    endTime       DateTime
+    vehicleAdvert VehicleAdvert @relation(fields: [vehicleUuid], references: [uuid])
+    vehicleUuid   String
+}
+
+model ReservedBookings {
+    id            Int           @id @default(autoincrement())
+    startTime     DateTime
+    endTime       DateTime
+    vehicleAdvert VehicleAdvert @relation(fields: [vehicleUuid], references: [uuid])
+    vehicleUuid   String
+    isCancelled   Boolean       @default(false)
+}
+
+model Message {
+    id            Int      @id @default(autoincrement())
+    fromUser      User     @relation(name: "sentMessages", fields: [fromUserUuid], references: [uuid])
+    fromUserUuid  String
+    toUser        User     @relation(name: "receivedMessages", fields: [toUserUuid], references: [uuid])
+    toUserUuid    String
+    content       String
+    sentTimestamp DateTime @default(now())
+}
+
+model SiteConfig {
+    id       Int    @id @default(autoincrement())
+    siteName String @unique
+}
+
+model PageConfig {
+    id          Int    @id @default(autoincrement())
+    route       String @unique
+    pageName    String
+    title       String
+    description String
+}
